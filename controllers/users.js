@@ -53,7 +53,7 @@ export const getAllUsersInExcel = async (req, res) => {
     let wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, binaryWS, "Binary values");
     XLSX.writeFile(wb, "./excels/users.xlsx");
-    res.redirect("../../excels/users.xlsx");
+    res.status(200).json({ message: `Файл успешно создан` });
   } catch (error) {
     res.status(404).json({ message: `Не удалось получить пользователей` });
   }
