@@ -3,15 +3,22 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import User from "./models/User.js";
-import { getUsers } from "./controllers/users.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+import { getUsers, getAllUsersInExcel } from "./controllers/users.js";
 // import { users } from "./nodeJsUsers.js";
 // Настройки
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use("/excels", express.static(path.join(__dirname, "excels")));
 
 app.get("/users", getUsers);
+app.get("/users/allData", getAllUsersInExcel);
 
 // Подключение к БД, запуск сервера
 const PORT = process.env.PORT || 3001;

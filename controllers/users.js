@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import qs from "qs";
+import XLSX from "xlsx";
 export const getUsers = async (req, res) => {
   try {
     let perPage = 50;
@@ -25,6 +26,35 @@ export const getUsers = async (req, res) => {
     }
     maxPage = Math.floor(userCount / perPage);
     res.status(200).json({ users, maxPage, userCount });
+  } catch (error) {
+    res.status(404).json({ message: `Не удалось получить пользователей` });
+  }
+};
+export const getAllUsersInExcel = async (req, res) => {
+  try {
+    let perPage = 50;
+    let { langs, sortBy } = qs.parse(req.query);
+    let users;
+    if (!langs) {
+      users = await User.find().sort([[sortBy, -1]]);
+    }
+    users = await User.find({ langs: { $all: langs } }).sort([[sortBy, -1]]);
+    users = users.map((user) => {
+      return {
+        name: user.name,
+        langs: user.langs,
+        stars: user.stars,
+        commits: user.commits,
+        prs: user.prs,
+        issues: user.issues,
+        contribs: user.contribs,
+      };
+    });
+    let binaryWS = XLSX.utils.json_to_sheet(users);
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, binaryWS, "Binary values");
+    XLSX.writeFile(wb, "./excels/users.xlsx");
+    res.redirect("../../excels/users.xlsx");
   } catch (error) {
     res.status(404).json({ message: `Не удалось получить пользователей` });
   }
