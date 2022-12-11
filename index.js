@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import User from "./models/user.js";
+import User from "./models/User.js";
 import { getUsers } from "./controllers/users.js";
 // import { users } from "./nodeJsUsers.js";
 // Настройки
