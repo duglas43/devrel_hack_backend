@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import User from "./models/User.js";
+import User from "./models/user.js";
 import { getUsers } from "./controllers/users.js";
 // import { users } from "./nodeJsUsers.js";
 // Настройки
@@ -15,14 +15,19 @@ app.get("/users", getUsers);
 const PORT = process.env.PORT || 3001;
 
 mongoose
-  .connect(process.env.MONGODB_URL, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(
     app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
-      // User.insertMany(users);
+      // User.insertMany(users, (error, docs) => {
+      //   if (error) {
+      //     return console.log(error);
+      //   }
+      //   console.log("Added users to database");
+      // });
     })
   )
   .catch((error) => console.log(`${error}, server not running`));
