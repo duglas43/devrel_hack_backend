@@ -42,7 +42,7 @@ export const getAllUsersInExcel = async (req, res) => {
     users = users.map((user) => {
       return {
         name: user.name,
-        langs: user.langs,
+        langs: user.langs.toString(),
         stars: user.stars,
         commits: user.commits,
         prs: user.prs,
