@@ -36,8 +36,9 @@ export const getAllUsersInExcel = async (req, res) => {
     let users;
     if (!langs) {
       users = await User.find().sort([[sortBy, -1]]);
+    } else {
+      users = await User.find({ langs: { $all: langs } }).sort([[sortBy, -1]]);
     }
-    users = await User.find({ langs: { $all: langs } }).sort([[sortBy, -1]]);
     users = users.map((user) => {
       return {
         name: user.name,
