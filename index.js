@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(cors());
 app.use("/excels", express.static(path.join(__dirname, "excels")));
 
-app.get("/users", getUsers);
 app.get("/users/allData", getAllUsersInExcel);
+app.get("/users", getUsers);
 
 // Подключение к БД, запуск сервера
 const PORT = process.env.PORT || 3001;

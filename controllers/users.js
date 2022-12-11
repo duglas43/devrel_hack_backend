@@ -32,7 +32,6 @@ export const getUsers = async (req, res) => {
 };
 export const getAllUsersInExcel = async (req, res) => {
   try {
-    let perPage = 50;
     let { langs, sortBy } = qs.parse(req.query);
     let users;
     if (!langs) {
